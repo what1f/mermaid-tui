@@ -166,9 +166,9 @@ export const register: Register = (on, options) => {
 // 热重载后清空没关系
 let themeFile: { mtimeMs: number; json: Record<string, unknown> } | undefined
 
-// 主题文件 ~/.claude/ls-mermaid-theme.json：改了就生效
+// 主题文件 ~/.claude/mermaid-tui-theme.json：改了就生效
 async function readThemeFile($: $, home: string): Promise<Record<string, unknown>> {
-  const path = `${home}/.claude/ls-mermaid-theme.json`
+  const path = `${home}/.claude/mermaid-tui-theme.json`
   try {
     const { mtimeMs } = await $.fs.stat(path)
     if (themeFile?.mtimeMs === mtimeMs) return themeFile.json
@@ -178,7 +178,7 @@ async function readThemeFile($: $, home: string): Promise<Record<string, unknown
     return themeFile.json
   } catch (error) {
     if (themeFile !== undefined || !(error instanceof SyntaxError)) return themeFile?.json ?? {}
-    $.ui.toast('ls-mermaid-theme.json is not valid JSON')
+    $.ui.toast('mermaid-tui-theme.json is not valid JSON')
     return {}
   }
 }
@@ -235,7 +235,7 @@ async function probe($: $): Promise<Env> {
 
 async function rasterize($: $, rsvg: string, home: string, svg: string, width: number, height: number, maxColumns: number, fontSize = 14): Promise<Picture | undefined> {
   const { columns, rows, zoom } = fitImage(width, height, maxColumns, fontSize)
-  const dir = `${home}/.cache/ls-mermaid`
+  const dir = `${home}/.cache/mermaid-tui`
   const base = `${dir}/${hash(svg)}-${columns}`
   if (!(await $.fs.exists(`${base}.png`))) {
     await $.process.run(['mkdir', '-p', dir])

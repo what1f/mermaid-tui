@@ -70,7 +70,7 @@ A block that is still streaming stays a code block until it closes. A diagram th
 
 Images follow the Claude Code theme: a light theme draws light, a dark theme dark, and `auto` follows the system appearance.
 
-To change colors or type, create `~/.claude/ls-mermaid-theme.json`. Every key is optional; the next diagram drawn picks up the change.
+To change colors or type, create `~/.claude/mermaid-tui-theme.json`. Every key is optional; the next diagram drawn picks up the change.
 
 ```json
 {

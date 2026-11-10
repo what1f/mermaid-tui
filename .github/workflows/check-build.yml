@@ -18,6 +18,8 @@ jobs:
           node-version: 24
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
+      # pi loads core/ directly, so only its types need checking
+      - run: pnpm typecheck
       - name: Committed copies match the build
         run: |
           git status --porcelain claude-code/hooks

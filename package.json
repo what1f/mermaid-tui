@@ -2,11 +2,31 @@
   "name": "mermaid-tui",
   "private": true,
   "type": "module",
+  "description": "Mermaid diagrams, drawn in coding agent TUIs.",
+  "keywords": [
+    "pi-package"
+  ],
   "scripts": {
-    "build": "node scripts/build.mjs"
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc -p pi"
+  },
+  "pi": {
+    "extensions": [
+      "./pi/index.ts"
+    ]
+  },
+  "dependencies": {
+    "pele": "https://github.com/what1f/pele/releases/download/1.13.0-ascii.1/pele.tgz"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "@earendil-works/pi-tui": "*"
   },
   "devDependencies": {
-    "pele": "https://github.com/what1f/pele/releases/download/1.13.0-ascii.1/pele.tgz"
+    "@earendil-works/pi-coding-agent": "1.5.1",
+    "@earendil-works/pi-tui": "1.5.1",
+    "@types/node": "^26.6.6",
+    "typescript": "^7.0.2"
   },
   "packageManager": "pnpm@12.18.0"
 }
