@@ -1,0 +1,25 @@
+{
+  "name": "mermaid",
+  "version": "0.1.0",
+  "description": "Draws Mermaid diagrams in Claude Code replies: images where the terminal can show them, text art elsewhere.",
+  "author": {
+    "name": "what1f"
+  },
+  "homepage": "https://github.com/what1f/mermaid-tui",
+  "repository": "https://github.com/what1f/mermaid-tui",
+  "license": "MIT",
+  "userConfig": {
+    "mode": {
+      "type": "string",
+      "title": "Drawing",
+      "description": "auto picks images where the terminal shows them, text art elsewhere.",
+      "default": "auto",
+      "options": [
+        "auto",
+        "image",
+        "text",
+        "off"
+      ]
+    }
+  }
+}

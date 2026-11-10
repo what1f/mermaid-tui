@@ -1,0 +1,14 @@
+{
+  "name": "mermaid-tui",
+  "description": "Mermaid diagrams, drawn in coding agent TUIs.",
+  "owner": {
+    "name": "what1f"
+  },
+  "plugins": [
+    {
+      "name": "mermaid",
+      "source": "./claude-code",
+      "description": "Draws Mermaid diagrams in Claude Code replies: images where the terminal can show them, text art elsewhere."
+    }
+  ]
+}

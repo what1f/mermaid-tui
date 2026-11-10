@@ -1,0 +1,24 @@
+# Claude Code installs a plugin by copying its folder alone, so core/ and pele
+# are copied into claude-code/hooks and committed. This checks the copies are current.
+name: Check built files
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - name: Committed copies match the build
+        run: |
+          git status --porcelain claude-code/hooks
+          test -z "$(git status --porcelain claude-code/hooks)"

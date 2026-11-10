@@ -1,0 +1,12 @@
+{
+  "name": "mermaid-tui",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "devDependencies": {
+    "pele": "https://github.com/what1f/pele/releases/download/1.13.0-ascii.1/pele.tgz"
+  },
+  "packageManager": "pnpm@12.18.0"
+}
