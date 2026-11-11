@@ -32,7 +32,7 @@ brew install librsvg
 | Where | What you get |
 | --- | --- |
 | kitty, Ghostty | An image |
-| Other terminals with the kitty graphics protocol (WezTerm, Rex…) | An image, once `CLAUDE_CODE_FORCE_TERMINAL_IMAGES=1` is set |
+| Other terminals with the kitty graphics protocol (WezTerm, Rex…) | An image, with `CLAUDE_CODE_FORCE_TERMINAL_IMAGES=1` set |
 | Any other terminal | Text art |
 | Desktop app, editor extensions | SVG |
 
@@ -44,7 +44,7 @@ To pick one way of drawing, set **Drawing** in `/config`: `auto` (default), `ima
 pi install git:github.com/what1f/mermaid-tui
 ```
 
-Then turn off **Mermaid diagrams** in `/settings`, so pi's own text drawing leaves the blocks to mermaid-tui. Images need `rsvg-convert` here too, and show in terminals pi draws images in.
+Then turn off **Mermaid diagrams** in `/settings`. That is pi's own text drawing; with it off, mermaid-tui draws the blocks. Images need `rsvg-convert` here too, and show in terminals pi draws images in.
 
 <p align="center">
   <picture>
@@ -164,9 +164,17 @@ Color keys at the top level apply to both appearances; keys under `light` or `da
 
 </details>
 
-## Credits
+## Built on pele
 
-Diagrams are drawn by [pele](https://github.com/obsidianmd/pele), from [a fork](https://github.com/what1f/pele) that adds text art.
+Images are drawn by [pele](https://github.com/obsidianmd/pele), a small Mermaid-to-SVG renderer. Text art comes from [pele/ascii](https://github.com/what1f/pele), our fork that gives pele a second output: the same Mermaid source, drawn with box-drawing characters.
+
+- **Every type.** All 32 diagram types pele draws as SVG also draw as text, each with a layout of its own.
+- **Clean joins.** Lines are tracked per cell, so an edge meets a box as `├` and crosses another as `┼`.
+- **Fits the width.** When a diagram is too wide, it is laid out again: tighter spacing, wrapped labels, and top-down instead of left-to-right if needed.
+- **Wide characters.** Chinese, Japanese, Korean and emoji take two columns, so boxes stay aligned.
+- **Plain ASCII.** `charset: 'ascii'` draws with `+ - |` only, for logs and terminals without Unicode.
+
+pele/ascii works on its own too; see [its README](https://github.com/what1f/pele).
 
 ## Development
 

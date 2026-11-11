@@ -44,7 +44,7 @@ brew install librsvg
 pi install git:github.com/what1f/mermaid-tui
 ```
 
-然后在 `/settings` 里关掉 **Mermaid diagrams**，让 pi 自带的字符图把代码块交给 mermaid-tui 来画。这里显示图片同样需要 `rsvg-convert`，pi 能显示图片的终端里就会出图。
+然后在 `/settings` 里关掉 **Mermaid diagrams**（pi 自带的字符图），改由 mermaid-tui 来画。这里显示图片同样需要 `rsvg-convert`，pi 能显示图片的终端里就会出图。
 
 <p align="center">
   <picture>
@@ -126,7 +126,7 @@ pi install git:github.com/what1f/mermaid-tui
 
 所有 Mermaid 图表类型都能画成这两种：甘特图、思维导图、时间线、Git 图、C4、架构图、看板等等。全部类型的字符图效果见 [pele/ascii 图库](https://github.com/what1f/pele/blob/ascii/GALLERY.md)。
 
-还在流式输出的代码块，闭合之前保持代码块的样子；解析不了的代码块也一样。改变的只是显示，Agent 读到的仍然是 Mermaid 源码。
+代码块还在流式输出、或者解析不了时，照原样显示。变的只是显示，Agent 读到的仍然是 Mermaid 源码。
 
 ## 主题
 
@@ -153,7 +153,7 @@ Claude Code 在 `~/.claude/`、pi 在 `~/.pi/agent/` 下新建 `mermaid-tui-them
 | `appearance` | `auto`（跟随 Agent）、`light` 或 `dark` |
 | `fontSize`、`font`、`fontMono` | 文字大小（px）和字体 |
 | `radius` | 圆角（px） |
-| `bg` | 压在连线上的标签背后的颜色 |
+| `bg` | 连线上标签的底色 |
 | `fg`、`muted` | 文字、次要文字 |
 | `line`、`border` | 连线、节点边框 |
 | `surface`、`surfaceAlt` | 节点填充色 |
@@ -164,9 +164,17 @@ Claude Code 在 `~/.claude/`、pi 在 `~/.pi/agent/` 下新建 `mermaid-tui-them
 
 </details>
 
-## 致谢
+## 基于 pele
 
-图由 [pele](https://github.com/obsidianmd/pele) 绘制，用的是加了字符图的 [fork](https://github.com/what1f/pele)。
+图片由 [pele](https://github.com/obsidianmd/pele) 绘制，它是一个小巧的 Mermaid 转 SVG 渲染器。字符图来自我们的 fork [pele/ascii](https://github.com/what1f/pele)，它给 pele 加了第二种输出：同一份 Mermaid 源码，用框线字符画出来。
+
+- **全部类型。** pele 能画成 SVG 的 32 种图，都能画成字符图，每种都有自己的排版。
+- **交汇整齐。** 线条按格子记录走向，连线接到框上是 `├`，两条线交叉是 `┼`。
+- **自适应宽度。** 图超出终端宽度时会重新排版：收紧间距、标签折行，必要时把横向改成纵向。
+- **宽字符。** 中日韩文字和 emoji 占两列，框线始终对齐。
+- **纯 ASCII。** `charset: 'ascii'` 只用 `+ - |` 画，适合日志和不支持 Unicode 的终端。
+
+pele/ascii 也可以单独使用，见[它的 README](https://github.com/what1f/pele)。
 
 ## 开发
 
@@ -177,14 +185,14 @@ Claude Code 在 `~/.claude/`、pi 在 `~/.pi/agent/` 下新建 `mermaid-tui-them
 | `pi/` | pi 扩展 |
 | `scripts/` | 构建脚本，以及生成上面图库的脚本 |
 
-pi 安装的是整个仓库，所以 `pi/` 直接引用 `core/`。Claude Code 安装插件时只复制插件目录，所以 `pnpm build` 会把 `core/` 和 pele 复制到 `claude-code/hooks/`，复制出来的文件也提交到仓库。改代码请改 `core/`，不要改复制品。升级 pele 时，修改 `package.json` 里它的 release 地址，然后：
+pi 安装的是整个仓库，所以 `pi/` 直接引用 `core/`。Claude Code 安装插件时只复制插件目录，所以 `pnpm build` 会把 `core/` 和 pele 复制到 `claude-code/hooks/`，复制出来的文件也提交到仓库。改代码请改 `core/`，不要改副本。升级 pele 时，修改 `package.json` 里它的 release 地址，然后：
 
 ```
 pnpm install
 pnpm build
 ```
 
-CI 会检查提交的复制品是否最新。`node scripts/gallery.mjs` 会重新生成图库。
+CI 会检查提交的副本是否最新。`node scripts/gallery.mjs` 会重新生成图库。
 
 ## 许可证
 
