@@ -1,76 +1,141 @@
-# mermaid-tui
+<h1 align="center">mermaid-tui</h1>
 
-Mermaid diagrams, drawn right in your coding agent's terminal.
+<p align="center">Mermaid diagrams, drawn in your coding agent's terminal.</p>
 
-When the agent answers with a ```` ```mermaid ```` block, you see the diagram instead of the source: an image where the terminal can show one, text art everywhere else.
+<p align="center"><b>English</b> | <a href="README.zh-CN.md">简体中文</a></p>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/demo-dark.png">
-  <img alt="A flowchart drawn as an image in the transcript" src="docs/demo-light.png">
-</picture>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/demo-claude-code-dark.gif">
+    <img alt="Claude Code answers with a Mermaid flowchart, and it shows up as a picture" src="docs/demo-claude-code-light.gif" width="880">
+  </picture>
+</p>
 
-| Harness | Status |
-| --- | --- |
-| [Claude Code](#claude-code) | Supported |
+When the agent answers with a ```` ```mermaid ```` block, you see the diagram, not the source. Terminals that show images get a sharp picture in your theme's colors. Every other terminal gets text art, fitted to the width.
 
-## Claude Code
+Works in [Claude Code](#claude-code) and [pi](#pi).
 
-### Install
+## Install
+
+### Claude Code
 
 ```
 /plugin install mermaid --marketplace what1f/mermaid-tui
 ```
 
-For images, install `rsvg-convert`:
+Images need `rsvg-convert`:
 
 ```
 brew install librsvg
 ```
 
-### How it draws
-
 | Where | What you get |
 | --- | --- |
 | kitty, Ghostty | An image |
 | Other terminals with the kitty graphics protocol (WezTerm, Rex…) | An image, once `CLAUDE_CODE_FORCE_TERMINAL_IMAGES=1` is set |
-| Any other terminal | Text art, fitted to the width |
+| Any other terminal | Text art |
 | Desktop app, editor extensions | SVG |
 
-Text art looks like this:
+To pick one way of drawing, set **Drawing** in `/config`: `auto` (default), `image`, `text` or `off`.
+
+### pi
 
 ```
-┌─────┐                 ┌────────┐         ┌──────┐
-│ You │                 │ Claude │         │ Repo │
-└──┬──┘                 └────┬───┘         └───┬──┘
-   │                         │                 │
-   │ Explain the login flow  │                 │
-   ├────────────────────────▶│                 │
-   │                         │                 │
-   │                         │ Read auth code  │
-   │                         ├────────────────▶│
-   │                         │                 │
-   │                         │     Files       │
-   │                         │◀┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤
-   │                         │                 │
-   │        Diagram          │                 │
-   │◀┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┤                 │
-   │                         │                 │
-┌──┴──┐                 ┌────┴───┐         ┌───┴──┐
-│ You │                 │ Claude │         │ Repo │
-└─────┘                 └────────┘         └──────┘
+pi install git:github.com/what1f/mermaid-tui
 ```
 
-A block that is still streaming stays a code block until it closes. A diagram that does not parse, or is too wide for text art, stays a code block too. Only the display changes: Claude still reads the Mermaid source.
+Then turn off **Mermaid diagrams** in `/settings`, so pi's own text drawing leaves the blocks to mermaid-tui. Images need `rsvg-convert` here too, and show in terminals pi draws images in.
 
-### Options
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/demo-pi-dark.gif">
+    <img alt="pi answers with a Mermaid sequence diagram, and it shows up as a picture" src="docs/demo-pi-light.gif" width="880">
+  </picture>
+</p>
 
-**Drawing**, in `/config`: `auto` (default), `image`, `text` or `off`.
+## Text art
 
-### Theme
+No image support? The same diagram comes out as text art, sized to the terminal.
 
-Images follow the Claude Code theme: a light theme draws light, a dark theme dark, and `auto` follows the system appearance.
+<p align="center">
+  <img alt="A sequence diagram drawn as text art in Claude Code" src="docs/text-art.png" width="880">
+</p>
 
-To change colors or type, create `~/.claude/mermaid-tui-theme.json`. Every key is optional; the next diagram drawn picks up the change.
+## Gallery
+
+<table>
+  <tr>
+    <th>Image</th>
+    <th>Text art</th>
+  </tr>
+  <tr>
+    <td align="center">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/gallery/flowchart-dark.png">
+        <img alt="A flowchart drawn as an image" src="docs/gallery/flowchart-light.png" width="194">
+      </picture>
+    </td>
+    <td align="center"><img alt="The same flowchart drawn as text" src="docs/gallery/flowchart-text.png" width="218"></td>
+  </tr>
+  <tr>
+    <td align="center">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/gallery/sequence-dark.png">
+        <img alt="A sequence diagram drawn as an image" src="docs/gallery/sequence-light.png" width="326">
+      </picture>
+    </td>
+    <td align="center"><img alt="The same sequence diagram drawn as text" src="docs/gallery/sequence-text.png" width="386"></td>
+  </tr>
+  <tr>
+    <td align="center">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/gallery/state-dark.png">
+        <img alt="A state diagram drawn as an image" src="docs/gallery/state-light.png" width="230">
+      </picture>
+    </td>
+    <td align="center"><img alt="The same state diagram drawn as text" src="docs/gallery/state-text.png" width="201"></td>
+  </tr>
+  <tr>
+    <td align="center">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/gallery/class-dark.png">
+        <img alt="A class diagram drawn as an image" src="docs/gallery/class-light.png" width="238">
+      </picture>
+    </td>
+    <td align="center"><img alt="The same class diagram drawn as text" src="docs/gallery/class-text.png" width="268"></td>
+  </tr>
+  <tr>
+    <td align="center">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/gallery/er-dark.png">
+        <img alt="An entity relationship diagram drawn as an image" src="docs/gallery/er-light.png" width="276">
+      </picture>
+    </td>
+    <td align="center"><img alt="The same entity relationship diagram drawn as text" src="docs/gallery/er-text.png" width="302"></td>
+  </tr>
+  <tr>
+    <td align="center">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="docs/gallery/pie-dark.png">
+        <img alt="A pie chart drawn as an image" src="docs/gallery/pie-light.png" width="280">
+      </picture>
+    </td>
+    <td align="center"><img alt="The same pie chart drawn as text" src="docs/gallery/pie-text.png" width="411"></td>
+  </tr>
+</table>
+
+Every Mermaid diagram type draws both ways: Gantt, mindmap, timeline, git graph, C4, architecture, kanban and the rest. See them all as text in [the pele/ascii gallery](https://github.com/what1f/pele/blob/ascii/GALLERY.md).
+
+A block that is still streaming stays a code block until it closes, and so does one that does not parse. Only the display changes: the agent still reads the Mermaid source.
+
+## Theme
+
+Images follow the agent's theme: a light theme draws light, a dark theme dark, and `auto` follows the system.
+
+<details>
+<summary>Change colors and type</summary>
+
+Create `mermaid-tui-theme.json` in `~/.claude/` for Claude Code, or in `~/.pi/agent/` for pi. Every key is optional; the next diagram drawn picks up the change.
 
 ```json
 {
@@ -85,7 +150,7 @@ To change colors or type, create `~/.claude/mermaid-tui-theme.json`. Every key i
 
 | Key | What it sets |
 | --- | --- |
-| `appearance` | `auto` (follow Claude Code), `light` or `dark` |
+| `appearance` | `auto` (follow the agent), `light` or `dark` |
 | `fontSize`, `font`, `fontMono` | Label size in px and font families |
 | `radius` | Corner radius in px |
 | `bg` | Behind labels that sit on lines |
@@ -97,13 +162,11 @@ To change colors or type, create `~/.claude/mermaid-tui-theme.json`. Every key i
 
 Color keys at the top level apply to both appearances; keys under `light` or `dark` apply to that one only.
 
-## Diagrams
-
-Flowcharts, sequence, class, state, ER, Gantt, pie, mindmap, timeline, gitGraph, journey, quadrant, XY, sankey, C4, architecture, kanban and more.
+</details>
 
 ## Credits
 
-Diagrams are drawn by [pele](https://github.com/obsidianmd/pele), from [a fork](https://github.com/what1f/pele/tree/ascii) that adds text art.
+Diagrams are drawn by [pele](https://github.com/obsidianmd/pele), from [a fork](https://github.com/what1f/pele) that adds text art.
 
 ## Development
 
@@ -111,15 +174,17 @@ Diagrams are drawn by [pele](https://github.com/obsidianmd/pele), from [a fork](
 | --- | --- |
 | `core/` | What every harness shares: finding Mermaid blocks, colors, image sizing |
 | `claude-code/` | The Claude Code plugin |
+| `pi/` | The pi extension |
+| `scripts/` | The build, and the gallery images above |
 
-Claude Code installs a plugin by copying its folder alone, so `pnpm build` copies `core/` and pele into `claude-code/hooks/`, and the copies are committed. Edit `core/`, not the copies. To update pele, change its release URL in `package.json`, then:
+pi installs the whole repository, so `pi/` uses `core/` as is. Claude Code installs a plugin by copying its folder alone, so `pnpm build` copies `core/` and pele into `claude-code/hooks/`, and the copies are committed. Edit `core/`, not the copies. To update pele, change its release URL in `package.json`, then:
 
 ```
 pnpm install
 pnpm build
 ```
 
-CI checks that the committed copies are current.
+CI checks that the committed copies are current. `node scripts/gallery.mjs` redraws the gallery.
 
 ## License
 
