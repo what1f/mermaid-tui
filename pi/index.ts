@@ -119,7 +119,7 @@ export default function mermaid(pi: ExtensionAPI) {
     if (Date.now() - (failedAt.get(key) ?? 0) < RETRY_MS) return undefined
     const { columns, zoom } = fitImage(svg.width, svg.height, MAX_CELLS, fontSize)
     const dir = join(homedir(), '.cache', 'mermaid-tui')
-    const base = join(dir, `${key}-${columns}`)
+    const base = join(dir, `${key}-${columns}-${zoom.toFixed(3)}`)
     try {
       if (!existsSync(`${base}.png`)) {
         mkdirSync(dir, { recursive: true })

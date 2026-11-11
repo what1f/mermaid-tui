@@ -236,7 +236,7 @@ async function probe($: $): Promise<Env> {
 async function rasterize($: $, rsvg: string, home: string, svg: string, width: number, height: number, maxColumns: number, fontSize = 14): Promise<Picture | undefined> {
   const { columns, rows, zoom } = fitImage(width, height, maxColumns, fontSize)
   const dir = `${home}/.cache/mermaid-tui`
-  const base = `${dir}/${hash(svg)}-${columns}`
+  const base = `${dir}/${hash(svg)}-${columns}-${zoom.toFixed(3)}`
   if (!(await $.fs.exists(`${base}.png`))) {
     await $.process.run(['mkdir', '-p', dir])
     await $.fs.write(`${base}.svg`, svg)

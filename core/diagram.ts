@@ -142,6 +142,8 @@ const CELL_ASPECT = 2.05;
 const PNG_PX_PER_COLUMN = 18;
 // 终端图片协议里一张图最多占多少格
 const MAX_CELLS = 255;
+// PNG 每边最多多少像素：Claude Code 拒收超过 4096 的图，留点余量给取整
+const MAX_PNG_PX = 4000;
 
 // SVG 在终端里占多少列、多少行，以及转 PNG 时放大多少倍
 export function fitImage(width: number, height: number, maxColumns: number, fontSize = 14) {
@@ -153,5 +155,6 @@ export function fitImage(width: number, height: number, maxColumns: number, font
     columns = Math.max(8, Math.round((columns * MAX_CELLS) / rows));
     rows = MAX_CELLS;
   }
-  return { columns, rows, zoom: (columns * PNG_PX_PER_COLUMN) / width };
+  const zoom = Math.min((columns * PNG_PX_PER_COLUMN) / width, MAX_PNG_PX / Math.max(width, height));
+  return { columns, rows, zoom };
 }
